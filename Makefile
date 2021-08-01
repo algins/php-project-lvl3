@@ -11,6 +11,9 @@ setup:
 test:
 	php artisan test
 
+test-coverage:
+	php artisan test --coverage-clover build/logs/clover.xml
+
 deploy:
 	git push heroku main
 
