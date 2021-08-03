@@ -13,6 +13,9 @@ setup:
 watch:
 	npm run watch
 
+prod:
+	npm run prod
+
 migrate:
 	php artisan migrate
 

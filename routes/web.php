@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\UrlController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', WelcomeController::class)->name('welcome');
+Route::resource('urls', UrlController::class)->only(['index', 'show', 'store']);
