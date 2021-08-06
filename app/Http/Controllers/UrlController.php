@@ -9,11 +9,9 @@ use Illuminate\View\View;
 
 class UrlController extends Controller
 {
-    private const TABLE = 'urls';
-
     public function index(): View
     {
-        $urls = DB::table(self::TABLE)->get();
+        $urls = DB::table('urls')->get();
 
         return view('urls.index', compact('urls'));
     }
@@ -29,15 +27,15 @@ class UrlController extends Controller
             return redirect()->route('welcome');
         }
 
-        $urlName = strtolower(parse_url($request->input('url.name'), PHP_URL_HOST));
-        $url = DB::table(self::TABLE)->where('name', $urlName)->first();
+        $urlName = normalize_url($request->input('url.name'));
+        $url = DB::table('urls')->where('name', $urlName)->first();
 
         if ($url) {
             flash('URL already exists');
             return redirect()->route('urls.show', $url->id);
         }
 
-        $id = DB::table(self::TABLE)->insertGetId([
+        $id = DB::table('urls')->insertGetId([
             'name' => $urlName,
             'created_at' => now(),
             'updated_at' => now(),
@@ -50,7 +48,7 @@ class UrlController extends Controller
 
     public function show($id): View
     {
-        $url = DB::table(self::TABLE)->where('id', $id)->first();
+        $url = DB::table('urls')->where('id', $id)->first();
 
         if (!$url) {
             abort(404);
