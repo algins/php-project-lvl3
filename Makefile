@@ -29,4 +29,5 @@ deploy:
 	git push heroku main
 
 lint:
-	composer phpcs
+	composer exec phpcs
+	composer exec phpstan analyse -- --memory-limit=-1
