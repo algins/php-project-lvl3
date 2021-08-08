@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UrlCheckController;
 use App\Http\Controllers\UrlController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -17,3 +18,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', WelcomeController::class)->name('welcome');
 Route::resource('urls', UrlController::class)->only(['index', 'show', 'store']);
+Route::resource('urls.checks', UrlCheckController::class)->only(['store']);

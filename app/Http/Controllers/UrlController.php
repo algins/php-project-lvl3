@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -11,12 +12,25 @@ class UrlController extends Controller
 {
     public function index(): View
     {
-        $urls = DB::table('urls')->get();
+        $urls = DB::table('urls')
+            ->leftJoin('url_checks', function ($join) {
+                $join
+                ->on('urls.id', '=', 'url_checks.url_id')
+                ->whereRaw('url_checks.id IN (
+                    SELECT MAX(uc.id)
+                    FROM url_checks AS uc
+                    JOIN urls as u
+                    ON u.id = uc.url_id
+                    GROUP by u.id
+                )');
+            })
+            ->select('urls.*', 'url_checks.created_at AS last_check')
+            ->get();
 
         return view('urls.index', compact('urls'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validator = Validator::make($request->all(), [
             'url.name' => 'required|url|max:255',
@@ -46,7 +60,7 @@ class UrlController extends Controller
         return redirect()->route('urls.show', $id);
     }
 
-    public function show($id): View
+    public function show(int $id): View
     {
         $url = DB::table('urls')->where('id', $id)->first();
 
@@ -54,6 +68,8 @@ class UrlController extends Controller
             abort(404);
         }
 
-        return view('urls.show', compact('url'));
+        $checks = DB::table('url_checks')->where('url_id', $id)->latest()->get();
+
+        return view('urls.show', compact('url', 'checks'));
     }
 }
