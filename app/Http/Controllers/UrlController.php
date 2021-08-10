@@ -24,7 +24,7 @@ class UrlController extends Controller
                     GROUP by u.id
                 )');
             })
-            ->select('urls.*', 'url_checks.created_at AS last_check')
+            ->select('urls.*', 'url_checks.created_at AS last_check', 'url_checks.status_code')
             ->get();
 
         return view('urls.index', compact('urls'));
