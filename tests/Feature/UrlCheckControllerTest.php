@@ -8,6 +8,12 @@ use Tests\TestCase;
 
 class UrlCheckControllerTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Http::fake();
+    }
+
     public function testStore(): void
     {
         $urlId = DB::table('urls')->insertGetId([
@@ -15,8 +21,6 @@ class UrlCheckControllerTest extends TestCase
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
-        Http::fake();
 
         $response = $this->post(route('urls.checks.store', $urlId));
         $response->assertSessionHas('flash_notification.0.level', 'info');
@@ -28,8 +32,6 @@ class UrlCheckControllerTest extends TestCase
     public function testStoreWithNonExistingUrl(): void
     {
         $urlId = 0;
-
-        Http::fake();
 
         $response = $this->post(route('urls.checks.store', $urlId));
         $response->assertSessionHas('flash_notification.0.level', 'danger');
