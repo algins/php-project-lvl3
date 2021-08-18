@@ -13,7 +13,7 @@ class UrlController extends Controller
     public function index(): View
     {
         $urls = DB::table('urls')
-            ->leftJoin('url_checks', function ($join) {
+            ->leftJoin('url_checks', function ($join): void {
                 $join
                 ->on('urls.id', '=', 'url_checks.url_id')
                 ->whereRaw('url_checks.id IN (
@@ -44,7 +44,7 @@ class UrlController extends Controller
         $urlName = normalize_url($request->input('url.name'));
         $url = DB::table('urls')->where('name', $urlName)->first();
 
-        if ($url) {
+        if (!is_null($url)) {
             flash('URL already exists');
             return redirect()->route('urls.show', $url->id);
         }
@@ -64,7 +64,7 @@ class UrlController extends Controller
     {
         $url = DB::table('urls')->where('id', $id)->first();
 
-        if (!$url) {
+        if (is_null($url)) {
             abort(404);
         }
 

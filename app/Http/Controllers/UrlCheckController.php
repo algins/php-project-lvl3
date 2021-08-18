@@ -13,7 +13,7 @@ class UrlCheckController extends Controller
     {
         $url = DB::table('urls')->where('id', $urlId)->first();
 
-        if (!$url) {
+        if (is_null($url)) {
             flash('URL not found')->error();
             return redirect()->route('urls.show', $urlId);
         }
