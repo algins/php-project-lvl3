@@ -12,6 +12,7 @@ class UrlCheckController extends Controller
 {
     public function store(int $urlId): RedirectResponse
     {
+        /** @var mixed $url */
         $url = DB::table('urls')->where('id', $urlId)->first();
 
         if (is_null($url)) {

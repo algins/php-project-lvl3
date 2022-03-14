@@ -37,6 +37,8 @@ class UrlController extends Controller
         }
 
         $urlName = normalize_url($request->input('url.name'));
+
+        /** @var mixed $url */
         $url = DB::table('urls')->where('name', $urlName)->first();
 
         if (is_null($url)) {
