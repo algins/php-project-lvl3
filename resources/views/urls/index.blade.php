@@ -27,5 +27,6 @@
                 </tbody>
             </table>
         </div>
+        {{ $urls->links() }}
     </div>
 @endsection

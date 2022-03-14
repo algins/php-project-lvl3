@@ -25,7 +25,7 @@ class UrlController extends Controller
                 )');
             })
             ->select('urls.*', 'url_checks.created_at AS last_check', 'url_checks.status_code')
-            ->get();
+            ->paginate();
 
         return view('urls.index', compact('urls'));
     }
