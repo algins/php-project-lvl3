@@ -12,22 +12,15 @@ class UrlController extends Controller
 {
     public function index(): View
     {
-        $urls = DB::table('urls')
-            ->leftJoin('url_checks', function ($join): void {
-                $join
-                ->on('urls.id', '=', 'url_checks.url_id')
-                ->whereRaw('url_checks.id IN (
-                    SELECT MAX(uc.id)
-                    FROM url_checks AS uc
-                    JOIN urls as u
-                    ON u.id = uc.url_id
-                    GROUP by u.id
-                )');
-            })
-            ->select('urls.*', 'url_checks.created_at AS last_check', 'url_checks.status_code')
-            ->paginate();
+        $urls = DB::table('urls')->paginate();
 
-        return view('urls.index', compact('urls'));
+        $urlChecks = DB::table('url_checks')
+            ->latest()
+            ->get()
+            ->groupBy('url_id')
+            ->map(fn($checks) => $checks->first());
+
+        return view('urls.index', compact('urls', 'urlChecks'));
     }
 
     public function store(Request $request): RedirectResponse
