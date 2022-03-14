@@ -46,22 +46,22 @@ class UrlController extends Controller
         $urlName = normalize_url($request->input('url.name'));
         $url = DB::table('urls')->where('name', $urlName)->first();
 
-        if (!is_null($url)) {
+        if (is_null($url)) {
+            $id = DB::table('urls')->insertGetId([
+                'name' => $urlName,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            /** @var string $successMessage */
+            $successMessage = __('views.urls.show.url_added');
+            flash($successMessage)->success();
+        } else {
+            $id = $url->id;
             /** @var string $infoMessage */
             $infoMessage = __('views.urls.show.url_exists');
             flash($infoMessage);
-            return redirect()->route('urls.show', $url->id);
         }
-
-        $id = DB::table('urls')->insertGetId([
-            'name' => $urlName,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        /** @var string $successMessage */
-        $successMessage = __('views.urls.show.url_added');
-        flash($successMessage)->success();
 
         return redirect()->route('urls.show', $id);
     }
