@@ -30,7 +30,7 @@ class UrlCheckController extends Controller
                 'url_id' => $urlId,
                 'status_code' => $response->status(),
                 'h1' => optional($document->first('h1'))->text(),
-                'keywords' => optional($document->first('meta[name="keywords"]'))->attr('content'),
+                'title' => optional($document->first('title'))->text(),
                 'description' => optional($document->first('meta[name="description"]'))->attr('content'),
                 'created_at' => now(),
                 'updated_at' => now(),

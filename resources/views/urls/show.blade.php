@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container-lg">
-        <h1 class="mt-5 mb-3">{{ __('views.urls.show.title', ['urlName' => $url->name]) }}</h1>
+        <h1 class="mt-5 mb-3">{{ __('views.urls.show.site', ['urlName' => $url->name]) }}</h1>
         <div class="table-responsive">
             <table class="table table-bordered table-hover text-nowrap">
                 <tbody>
@@ -37,7 +37,7 @@
                         <th>{{ __('views.urls.show.id') }}</th>
                         <th>{{ __('views.urls.show.response_code') }}</th>
                         <th>{{ __('views.urls.show.h1') }}</th>
-                        <th>{{ __('views.urls.show.keywords') }}</th>
+                        <th>{{ __('views.urls.show.title') }}</th>
                         <th>{{ __('views.urls.show.description') }}</th>
                         <th>{{ __('views.urls.show.created_at') }}</th>
                     </tr>
@@ -48,7 +48,7 @@
                             <td>{{ $check->id }}</td>
                             <td>{{ $check->status_code }}</td>
                             <td>{{ $check->h1 }}</td>
-                            <td>{{ $check->keywords }}</td>
+                            <td>{{ $check->title }}</td>
                             <td>{{ $check->description }}</td>
                             <td>{{ $check->created_at }}</td>
                         </tr>

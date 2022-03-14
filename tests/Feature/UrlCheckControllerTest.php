@@ -36,7 +36,7 @@ class UrlCheckControllerTest extends TestCase
             'url_id' => $urlId,
             'status_code' => 200,
             'h1' => 'Page analyzer',
-            'keywords' => 'analyzes, SEO, suitability',
+            'title' => 'Page analyzer',
             'description' => 'Site that analyzes pages for SEO suitability.',
         ]);
     }
