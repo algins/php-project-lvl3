@@ -5,12 +5,12 @@
             <div class="container-lg">
                 <div class="row">
                     <div class="col-12 col-md-10 col-lg-8 mx-auto text-white">
-                        <h1 class="display-3">Page analyzer</h1>
-                        <p class="lead">Check sites for SEO suitability</p>
+                        <h1 class="display-3">{{ __('views.welcome.title') }}</h1>
+                        <p class="lead">{{ __('views.welcome.description') }}</p>
                         <form method="POST" action="{{ route('urls.store') }}" class="d-flex justify-content-center">
                             @csrf
                             <input type="text" name="url[name]" class="form-control form-control-lg" placeholder="https://www.example.com">
-                            <button type="submit" class="btn btn-lg btn-primary ml-3 px-5 text-uppercase">Check</button>
+                            <button type="submit" class="btn btn-lg btn-primary ml-3 px-5 text-uppercase">{{ __('views.welcome.check') }}</button>
                         </form>
                     </div>
                 </div>

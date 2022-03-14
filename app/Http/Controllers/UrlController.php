@@ -37,7 +37,9 @@ class UrlController extends Controller
         ]);
 
         if ($validator->fails()) {
-            flash('Invalid URL')->error();
+            /** @var string $errorMessage */
+            $errorMessage = __('views.urls.index.url_invalid');
+            flash($errorMessage)->error();
             return back()->withErrors($validator);
         }
 
@@ -45,7 +47,9 @@ class UrlController extends Controller
         $url = DB::table('urls')->where('name', $urlName)->first();
 
         if (!is_null($url)) {
-            flash('URL already exists');
+            /** @var string $infoMessage */
+            $infoMessage = __('views.urls.show.url_exists');
+            flash($infoMessage);
             return redirect()->route('urls.show', $url->id);
         }
 
@@ -55,7 +59,9 @@ class UrlController extends Controller
             'updated_at' => now(),
         ]);
 
-        flash('URL successfully added')->success();
+        /** @var string $successMessage */
+        $successMessage = __('views.urls.show.url_added');
+        flash($successMessage)->success();
 
         return redirect()->route('urls.show', $id);
     }

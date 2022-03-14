@@ -14,7 +14,9 @@ class UrlCheckController extends Controller
         $url = DB::table('urls')->where('id', $urlId)->first();
 
         if (is_null($url)) {
-            flash('URL not found')->error();
+            /** @var string $errorMessage */
+            $errorMessage = __('views.urls.index.url_not_found');
+            flash($errorMessage)->error();
             return redirect()->route('urls.show', $urlId);
         }
 
@@ -31,7 +33,9 @@ class UrlCheckController extends Controller
             'updated_at' => now(),
         ]);
 
-        flash('URL successfully checked');
+        /** @var string $successMessage */
+        $successMessage = __('views.urls.show.url_checked');
+        flash($successMessage);
 
         return redirect()->route('urls.show', $urlId);
     }

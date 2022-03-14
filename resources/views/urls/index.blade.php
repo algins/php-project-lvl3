@@ -2,15 +2,15 @@
 
 @section('content')
     <div class="container-lg">
-        <h1 class="mt-5 mb-3">Sites</h1>
+        <h1 class="mt-5 mb-3">{{ __('views.urls.index.title') }}</h1>
         <div class="table-responsive">
             <table class="table table-bordered table-hover text-nowrap">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Last check</th>
-                        <th>Response code</th>
+                        <th>{{ __('views.urls.index.id') }}</th>
+                        <th>{{ __('views.urls.index.name') }}</th>
+                        <th>{{ __('views.urls.index.last_check') }}</th>
+                        <th>{{ __('views.urls.index.response_code') }}</th>
                     </tr>
                 </thead>
                 <tbody>
