@@ -35,7 +35,7 @@ class UrlCheckController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             /** @var string $errorMessage */
             $errorMessage = __('views.urls.index.url_read_error');
             flash($errorMessage)->error();
