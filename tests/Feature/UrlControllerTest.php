@@ -7,6 +7,15 @@ use Tests\TestCase;
 
 class UrlControllerTest extends TestCase
 {
+    private string $urlName;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->urlName = $this->faker->url;
+    }
+
     public function testIndex(): void
     {
         $response = $this->get(route('urls.index'));
@@ -15,13 +24,11 @@ class UrlControllerTest extends TestCase
 
     public function testStore(): void
     {
-        $urlName = $this->faker->url;
-
-        $response = $this->post(route('urls.store'), ['url' => ['name' => $urlName]]);
+        $response = $this->post(route('urls.store'), ['url' => ['name' => $this->urlName]]);
         $response->assertSessionHas('flash_notification.0.level', 'success');
         $response->assertRedirect();
 
-        $this->assertDatabaseHas('urls', ['name' => normalize_url($urlName)]);
+        $this->assertDatabaseHas('urls', ['name' => normalize_url($this->urlName)]);
     }
 
     public function testStoreWithValidationErrors(): void
@@ -37,8 +44,7 @@ class UrlControllerTest extends TestCase
 
     public function testStoreExistingUrl(): void
     {
-        $urlName = $this->faker->url;
-        $normalizedUrlName = normalize_url($urlName);
+        $normalizedUrlName = normalize_url($this->urlName);
 
         DB::table('urls')->insert([
             'name' => $normalizedUrlName,
@@ -46,7 +52,7 @@ class UrlControllerTest extends TestCase
             'updated_at' => now(),
         ]);
 
-        $response = $this->post(route('urls.store'), ['url' => ['name' => $urlName]]);
+        $response = $this->post(route('urls.store'), ['url' => ['name' => $this->urlName]]);
         $response->assertSessionHas('flash_notification.0.level', 'info');
         $response->assertRedirect();
 
@@ -57,7 +63,7 @@ class UrlControllerTest extends TestCase
     public function testShow(): void
     {
         $id = DB::table('urls')->insertGetId([
-            'name' => $this->faker->url,
+            'name' => $this->urlName,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
