@@ -15,10 +15,10 @@ class UrlController extends Controller
         $urls = DB::table('urls')->paginate();
 
         $urlChecks = DB::table('url_checks')
-            ->latest()
-            ->get()
-            ->groupBy('url_id')
-            ->map(fn($checks) => $checks->first());
+        ->select(DB::raw('*, MAX(created_at) AS created_at'))
+        ->groupBy('url_id')
+        ->get()
+        ->keyBy('url_id');
 
         return view('urls.index', compact('urls', 'urlChecks'));
     }
