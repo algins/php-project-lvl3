@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use DiDom\Document;
-use Exception;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -35,16 +36,19 @@ class UrlCheckController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-        } catch (Exception $e) {
-            /** @var string $errorMessage */
-            $errorMessage = __('views.urls.index.url_read_error');
-            flash($errorMessage)->error();
-            return redirect()->route('urls.show', $urlId);
-        }
 
-        /** @var string $successMessage */
-        $successMessage = __('views.urls.show.url_checked');
-        flash($successMessage);
+            /** @var string $successMessage */
+            $successMessage = __('views.urls.show.url_checked');
+            flash($successMessage);
+        } catch (ConnectionException $e) {
+            /** @var string $errorMessage */
+            $errorMessage = __('views.urls.index.url_read_connection_error');
+            flash($errorMessage)->error();
+        } catch (RequestException $e) {
+            /** @var string $errorMessage */
+            $errorMessage = __('views.urls.index.url_read_request_error');
+            flash($errorMessage)->error();
+        }
 
         return redirect()->route('urls.show', $urlId);
     }
