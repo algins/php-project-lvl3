@@ -8,20 +8,15 @@ use Tests\TestCase;
 
 class UrlCheckControllerTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        /** @var string $response */
-        $response = file_get_contents($this->getFixturePath('response.html'));
-
-        Http::fake([
-            '*' => Http::response($response),
-        ]);
-    }
-
     public function testStore(): void
     {
+        /** @var string $body */
+        $body = file_get_contents($this->getFixturePath('response.html'));
+
+        Http::fake([
+            '*' => Http::response($body),
+        ]);
+
         $urlId = DB::table('urls')->insertGetId([
             'name' => $this->faker->url,
             'created_at' => now(),
