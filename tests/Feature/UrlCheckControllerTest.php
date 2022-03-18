@@ -8,13 +8,18 @@ use Tests\TestCase;
 
 class UrlCheckControllerTest extends TestCase
 {
+    private string $responseBody;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->responseBody = file_get_contents($this->getFixturePath('response.html')) ?: '';
+    }
+
     public function testStore(): void
     {
-        /** @var string $body */
-        $body = file_get_contents($this->getFixturePath('response.html'));
-
         Http::fake([
-            '*' => Http::response($body),
+            '*' => Http::response($this->responseBody),
         ]);
 
         $urlId = DB::table('urls')->insertGetId([
