@@ -28,7 +28,7 @@ class UrlControllerTest extends TestCase
         $response->assertSessionHas('flash_notification.0.level', 'success');
         $response->assertRedirect();
 
-        $this->assertDatabaseHas('urls', ['name' => normalize_url($this->urlName)]);
+        $this->assertDatabaseHas('urls', ['name' => strtolower($this->urlName)]);
     }
 
     public function testStoreWithValidationErrors(): void
@@ -39,12 +39,12 @@ class UrlControllerTest extends TestCase
         $response->assertSessionHas('flash_notification.0.level', 'danger');
         $response->assertRedirect();
 
-        $this->assertDatabaseMissing('urls', ['name' => normalize_url($urlName)]);
+        $this->assertDatabaseMissing('urls', ['name' => strtolower($urlName)]);
     }
 
     public function testStoreExistingUrl(): void
     {
-        $normalizedUrlName = normalize_url($this->urlName);
+        $normalizedUrlName = strtolower($this->urlName);
 
         DB::table('urls')->insert([
             'name' => $normalizedUrlName,

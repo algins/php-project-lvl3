@@ -36,7 +36,7 @@ class UrlController extends Controller
             return back()->withErrors($validator);
         }
 
-        $urlName = normalize_url($request->input('url.name'));
+        $urlName = strtolower($request->input('url.name'));
 
         /** @var mixed $url */
         $url = DB::table('urls')->where('name', $urlName)->first();
