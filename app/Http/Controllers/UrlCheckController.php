@@ -40,14 +40,8 @@ class UrlCheckController extends Controller
             /** @var string $successMessage */
             $successMessage = __('views.urls.show.url_checked');
             flash($successMessage);
-        } catch (ConnectionException $e) {
-            /** @var string $errorMessage */
-            $errorMessage = __('views.urls.index.url_read_connection_error');
-            flash($errorMessage)->error();
-        } catch (RequestException $e) {
-            /** @var string $errorMessage */
-            $errorMessage = __('views.urls.index.url_read_request_error');
-            flash($errorMessage)->error();
+        } catch (ConnectionException | RequestException $e) {
+            flash($e)->error();
         }
 
         return redirect()->route('urls.show', $urlId);

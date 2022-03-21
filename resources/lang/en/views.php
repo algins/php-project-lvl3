@@ -18,8 +18,6 @@ return [
             'title' => 'Sites',
             'url_invalid' => 'Invalid URL',
             'url_not_found' => 'URL not found',
-            'url_read_connection_error' => 'URL data read connection failed',
-            'url_read_request_error' => 'URL data read request failed',
         ],
 
         'show' => [
