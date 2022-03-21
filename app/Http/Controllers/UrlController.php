@@ -64,7 +64,7 @@ class UrlController extends Controller
     public function show(int $id): View
     {
         $url = DB::table('urls')->where('id', $id)->first();
-        abort_if(!$url, 404);
+        abort_unless(isset($url), 404);
 
         $checks = DB::table('url_checks')->where('url_id', $id)->latest()->get();
 
