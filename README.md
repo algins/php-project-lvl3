@@ -29,4 +29,4 @@ $ make start # Open http://localhost:8000
 ```
 
 ### Demo:
-http://algins-page-analyzer.herokuapp.com
+https://algins-page-analyzer.herokuapp.com
